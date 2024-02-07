@@ -4,6 +4,7 @@ require_once "config.php";
 
 
 $book = [
+    "copertina" => isset($_FILES['image']['name']) ? $_FILES['image']['name'] : '',
     "titolo" => isset($_REQUEST['titolo']) ? $_REQUEST['titolo'] : '',
     "autore" => isset($_REQUEST['autore']) ? $_REQUEST['autore'] : '',
     "anno_pubblicazione" => isset($_REQUEST['anno']) ? $_REQUEST['anno'] : '',
@@ -26,13 +27,14 @@ function getAllBooks($mysqli)
 
 function addBook($mysqli, $book)
 {
+    $copertina = $book['copertina'];
     $titolo = $book['titolo'];
     $autore = $book['autore'];
     $anno_pubblicazione = $book['anno_pubblicazione'];
     $genere = $book['genere'];
 
-    $sql = "INSERT INTO libri (titolo, autore, anno_pubblicazione, genere) 
-                VALUES ('$titolo', '$autore', '$anno_pubblicazione', '$genere')";
+    $sql = "INSERT INTO libri (copertina, titolo, autore, anno_pubblicazione, genere) 
+                VALUES ('$copertina', '$titolo', '$autore', '$anno_pubblicazione', '$genere')";
     if (!$mysqli->query($sql)) {
         echo ($mysqli->error);
     } else {
@@ -79,6 +81,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     removeBook($mysqli, $_REQUEST['id']);
     exit(header('Location: index.php'));
 }
+
+
 
 
 ?>

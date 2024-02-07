@@ -23,6 +23,7 @@
 
     $sql= 'CREATE TABLE IF NOT EXISTS libri(
         id INT AUTO_INCREMENT PRIMARY KEY,
+        copertina VARCHAR(100) NULL,
         titolo VARCHAR(255) NOT NULL,
         autore VARCHAR(255) NOT NULL,
         anno_pubblicazione INT NOT NULL,
