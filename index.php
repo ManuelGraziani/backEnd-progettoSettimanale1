@@ -32,7 +32,7 @@ $libri= getAllBooks($mysqli);
                 aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div >
                 <button type="button" class="btn btn-primary ms-auto me-3 " data-mdb-ripple-init data-mdb-modal-init
                     data-mdb-target="#exampleModal">
                     Aggiungi libro
@@ -45,31 +45,27 @@ $libri= getAllBooks($mysqli);
     </nav>
 
     <div class="container">
-        <table class="table mt-5 border">
-            <thead>
-                <tr>
-                    <th scope="col">Copertina</th>
-                    <th scope="col">Titolo</th>
-                    <th scope="col">Autore</th>
-                    <th scope="col">Anno</th>
-                    <th scope="col">Genere</th>
-                    <th scope="col">Azioni</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-        foreach ($libri as $key =>$libro) {
-            echo '<tr>
-                <td><img src="./upload/'.$libro['copertina'].'" width="80px"></td>
-                <td>'.$libro['titolo'].'</td>
-                <td>'.$libro['autore'].'</td>
-                <td>'.$libro['anno_pubblicazione'].'</td>
-                <td>'.$libro['genere'].'</td>
-                <td class="d-flex justify-content-evenly border-0">
-                <a role="button" class="btn btn-warning" data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#modificaLibro' . $libro['id'] . '" data-mdb-ripple-color="dark"><i class="bi bi-pencil-square"></i></a>
-                <a role="button" class="btn btn-danger" href="gestione.php?action=delete&id='.$libro['id'].'"><i class="bi bi-x-lg"></i></a> </td>
-            </tr>
-            ';
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
+            <?php
+        foreach ($libri as $key => $libro) {
+            echo '<div class="col mt-2 mb-5 text-center">
+                <div class="card mt-3 h-100" style="width: 18rem;">
+                    <img src="./upload/' . $libro['copertina'] . '" class="card-img-top" alt="" style="height: 310px">
+                    <div class="card-body">
+                        <h5 class="card-title">' . $libro['titolo'] . '</h5>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">' . $libro['autore'] . '</li>
+                            <li class="list-group-item">' . $libro['anno_pubblicazione'] . '</li>
+                            <li class="list-group-item">' . $libro['genere'] . '</li>
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                    <a role="button" class="btn btn-warning me-3" data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#modificaLibro' . $libro['id'] . '" data-mdb-ripple-color="dark"><i class="bi bi-pencil-square"></i></a>
+                    <a role="button" class="btn btn-danger" href="gestione.php?action=delete&id='.$libro['id'].'"><i class="bi bi-x-lg"></i></a>
+                    </div>
+                </div>
+            </div>';
+
             echo '<div class="modal fade" id="modificaLibro' . $libro['id'] . '" tabindex="-1" aria-labelledby="modaleUpdate" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -79,16 +75,14 @@ $libri= getAllBooks($mysqli);
                                 </div>
                                 <div class="modal-body">
                                     <form method="POST" action="gestione.php" enctype="multipart/form-data">
-                                    <input type="hidden" name="id" value="'. $libro['id'] .'">
+                                        <input type="hidden" name="id" value="' . $libro['id'] . '">
                                         <div class="mb-3">
                                             <label for="titoloLibro" class="form-label">Titolo</label>
-                                            <input type="text" class="form-control" id="titoloLibro" aria-describedby="titoloLibro"
-                                                name="titoloUp" value="' . $libro['titolo'] . '">
+                                            <input type="text" class="form-control" id="titoloLibro" aria-describedby="titoloLibro" name="titoloUp" value="' . $libro['titolo'] . '">
                                         </div>
                                         <div class="mb-3">
                                             <label for="autoreLibro" class="form-label">Autore</label>
-                                            <input type="text" class="form-control" id="autoreLibro" name="autoreUp"
-                                                value="' . $libro['autore'] . ' ">
+                                            <input type="text" class="form-control" id="autoreLibro" name="autoreUp" value="' . $libro['autore'] . '">
                                         </div>
                                         <div class="mb-3">
                                             <label for="annoLibro" class="form-label">Anno di pubblicazione</label>
@@ -96,8 +90,7 @@ $libri= getAllBooks($mysqli);
                                         </div>
                                         <div class="mb-3">
                                             <label for="genereLibro" class="form-label">Genere</label>
-                                            <input type="text" class="form-control" id="genereLibro" name="genereUp"
-                                                value="' . $libro['genere'] . ' ">
+                                            <input type="text" class="form-control" id="genereLibro" name="genereUp" value="' . $libro['genere'] . '">
                                         </div>
                                         <div class="mb-3">
                                             <label for="image" class="form-label">Copertina</label>
@@ -114,14 +107,16 @@ $libri= getAllBooks($mysqli);
                     </div>';
         }
         ?>
-            </tbody>
-        </table>
-    </div>
-    <footer class="bg-dark text-center text-white text-lg-start" style="position: absolute; bottom: 0; width: 100%;">
-        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
-            © 2024 Manuel Graziani
         </div>
-    </footer>
+    </div>
+    <div>
+        <footer class="bg-dark text-center text-white text-lg-start">
+            <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
+                © 2024 Manuel Graziani
+            </div>
+        </footer>
+    </div>
+
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.umd.min.js">
     </script>
 </body>
