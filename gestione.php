@@ -9,6 +9,12 @@ $book = [
     "autore" => isset($_REQUEST['autore']) ? $_REQUEST['autore'] : '',
     "anno_pubblicazione" => isset($_REQUEST['anno']) ? $_REQUEST['anno'] : '',
     "genere" => isset($_REQUEST['genere']) ? $_REQUEST['genere'] : '',
+
+    "copertinaUp" => isset($_FILES['imageUp']['name']) ? $_FILES['imageUp']['name'] : '',
+    "titoloUp" => isset($_REQUEST['titoloUp']) ? $_REQUEST['titoloUp'] : '',
+    "autoreUp" => isset($_REQUEST['autoreUp']) ? $_REQUEST['autoreUp'] : '',
+    "annoUp" => isset($_REQUEST['annoUp']) ? $_REQUEST['annoUp'] : '',
+    "genereUp" => isset($_REQUEST['genereUp']) ? $_REQUEST['genereUp'] : ''
 ];
 
 function getAllBooks($mysqli)
@@ -33,6 +39,10 @@ function addBook($mysqli, $book)
     $anno_pubblicazione = $book['anno_pubblicazione'];
     $genere = $book['genere'];
 
+    $target_dir = "./upload/";
+    $target_file = $target_dir . basename($_FILES["image"]["name"]);
+    move_uploaded_file($_FILES["image"]["tmp_name"], $target_file);
+
     $sql = "INSERT INTO libri (copertina, titolo, autore, anno_pubblicazione, genere) 
                 VALUES ('$copertina', '$titolo', '$autore', '$anno_pubblicazione', '$genere')";
     if (!$mysqli->query($sql)) {
@@ -53,9 +63,20 @@ function removeBook($mysqli, $id)
 }
 
 
-function updateBook($mysqli, $id, $titolo, $autore, $anno_pubblicazione, $genere)
+function updateBook($mysqli, $id, $book)
 {
+    $copertina = $book['copertinaUp'];
+    $titolo = $book['titoloUp'];
+    $autore = $book['autoreUp'];
+    $anno_pubblicazione = $book['annoUp'];
+    $genere = $book['genereUp'];
+
+    $target_dir = "./upload/";
+    $target_file = $target_dir . basename($_FILES["imageUp"]["name"]);
+    move_uploaded_file($_FILES["imageUp"]["tmp_name"], $target_file);
+
     $sql = "UPDATE libri SET 
+                        copertina='" . $copertina . "',
                         titolo = '" . $titolo . "', 
                         autore = '" . $autore . "',
                         anno_pubblicazione = '" . $anno_pubblicazione . "',
@@ -71,7 +92,7 @@ function updateBook($mysqli, $id, $titolo, $autore, $anno_pubblicazione, $genere
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['action']) && $_POST['action'] === 'update') {
-        updateBook($mysqli, $_POST['id'], $_POST['titoloUp'], $_POST['autoreUp'], $_POST['annoUp'], $_POST['genereUp']);
+        updateBook($mysqli, $_POST['id'], $book);
         exit(header('Location: index.php'));
     } else {
         addBook($mysqli, $book);
@@ -81,10 +102,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     removeBook($mysqli, $_REQUEST['id']);
     exit(header('Location: index.php'));
 }
-
-
-
-
-?>
-
-

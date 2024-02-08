@@ -79,11 +79,11 @@ $libri= getAllBooks($mysqli);
                                 </div>
                                 <div class="modal-body">
                                     <form method="POST" action="gestione.php" enctype="multipart/form-data">
-                                    <input type="hidden" name="id" value="' . $libro['id'] . '">
+                                    <input type="hidden" name="id" value="'. $libro['id'] .'">
                                         <div class="mb-3">
                                             <label for="titoloLibro" class="form-label">Titolo</label>
                                             <input type="text" class="form-control" id="titoloLibro" aria-describedby="titoloLibro"
-                                                name="titoloUp" value=" ' . $libro['titolo'] . '">
+                                                name="titoloUp" value="' . $libro['titolo'] . '">
                                         </div>
                                         <div class="mb-3">
                                             <label for="autoreLibro" class="form-label">Autore</label>
@@ -97,7 +97,11 @@ $libri= getAllBooks($mysqli);
                                         <div class="mb-3">
                                             <label for="genereLibro" class="form-label">Genere</label>
                                             <input type="text" class="form-control" id="genereLibro" name="genereUp"
-                                                value=" ' . $libro['genere'] . ' ">
+                                                value="' . $libro['genere'] . ' ">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="image" class="form-label">Copertina</label>
+                                            <input type="file" class="form-control" id="image" name="imageUp">
                                         </div>
                                         <div class="modal-footer border-0">
                                             <button type="button" class="btn btn-secondary" data-mdb-ripple-init data-mdb-dismiss="modal">Chiudi</button>
@@ -135,11 +139,10 @@ $libri= getAllBooks($mysqli);
                     aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form method="POST" action="gestione.php"  enctype="multipart/form-data">
+                <form method="POST" action="gestione.php" enctype="multipart/form-data">
                     <div class="mb-3">
                         <label for="titolo" class="form-label">Titolo</label>
-                        <input type="text" class="form-control" id="titolo" aria-describedby="emailHelp"
-                            name="titolo">
+                        <input type="text" class="form-control" id="titolo" aria-describedby="emailHelp" name="titolo">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Autore</label>
